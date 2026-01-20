@@ -1,0 +1,11 @@
+#!/bin/sh
+
+VM="$(nix build .#nixosConfigurations.mac.config.system.build.vm --print-out-paths)"
+
+# QEMU_OPTS="-m 8G -device qemu-xhci,id=usbctrl1 -device usb-host,vendorid=0x0951,productid=0x1666,id=usbdisk1"
+QEMU_OPTS="-m 8G -vga virtio -display gtk"
+
+sudo env XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" \
+  WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
+  QEMU_OPTS="$QEMU_OPTS" \
+  $VM/bin/run-nixos-vm

@@ -35,6 +35,22 @@ in {
             rgui_particle_effect = "5";
             rgui_browser_directory = "/media";
             cache_directory = "~/.cache/retroarch";
+
+            content_show_images = "false";
+            content_show_music = "false";
+            content_show_video = "false";
+            content_show_netplay = "false";
+            content_show_playlists = "false";
+            content_show_playlist_tabs = "false";
+
+            menu_show_configurations = "false";
+            menu_show_core_updater = "false";
+            menu_show_online_updater = "false";
+            menu_show_dump_disc = "false";
+            menu_show_help = "false";
+            menu_show_information = "false";
+
+            desktop_menu_enable = "false";
           };
         });
       in ''

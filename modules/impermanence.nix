@@ -86,18 +86,7 @@ in {
           path = "/var/log";
           permissions = "711";
         }
-        "/var/lib/bluetooth"
-        "/root/.cache/nix"
         "/var/lib/systemd"
-        "/etc/NetworkManager/system-connections"
-        "/var/lib/fwupd"
-        "/var/cache/fwupd"
-        "/var/lib/fprint"
-        "/var/db/sudo"
-      ];
-
-      my.impermanence.files = [
-        "/etc/localtime"
       ];
     })
 
@@ -175,22 +164,5 @@ in {
         value = {source = "${cfg.persist}/rootfs/etc/${loc}";};
       }) ["machine-id"]);
     })
-
-    # openssh
-    {
-      systemd.tmpfiles.rules = ["d ${cfg.persist}/ssh 755 root root - -"];
-
-      services.openssh.hostKeys = [
-        {
-          path = "${cfg.persist}/ssh/ssh_host_ed25519_key";
-          type = "ed25519";
-        }
-        {
-          path = "${cfg.persist}/ssh/ssh_host_rsa_key";
-          type = "rsa";
-          bits = 4096;
-        }
-      ];
-    }
   ];
 }

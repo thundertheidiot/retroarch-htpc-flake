@@ -14,6 +14,12 @@ in {
         group = "nixuser";
         permissions = "700";
       }
+      {
+        path = "${config.users.users.nixuser.home}/.cache/retroarch";
+        user = "nixuser";
+        group = "nixuser";
+        permissions = "700";
+      }
     ];
 
     services.cage = {
@@ -28,6 +34,7 @@ in {
           rgui_menu_color_theme = "6";
           rgui_particle_effect = "5";
           rgui_browser_directory = "/media";
+          cache_directory = "~/.cache/retroarch";
         };
       });
       user = "nixuser";

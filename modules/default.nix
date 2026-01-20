@@ -1,4 +1,4 @@
-{...}: {
+{pkgs, ...}: {
   imports = [
     ./disks.nix
     ./impermanence.nix
@@ -11,6 +11,12 @@
       group = "nixuser";
       password = "password";
       extraGroups = ["wheel"];
+    };
+
+    boot.plymouth = {
+      enable = true;
+      themePackages = pkgs.plymouth-blahaj-theme;
+      theme = "blahaj";
     };
 
     users.groups.nixuser = {};

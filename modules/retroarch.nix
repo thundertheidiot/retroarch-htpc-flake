@@ -1,17 +1,36 @@
-{...}: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (lib) getExe attrValues;
+in {
   config = {
-    services.xserver.enable = true;
+    my.impermanence.directories = [
+      {
+        path = "${config.users.users.nixuser.home}/.config/retroarch";
+        user = "nixuser";
+        group = "nixuser";
+        permissions = "700";
+      }
+    ];
 
-    services.displayManager.sddm = {
+    services.cage = {
       enable = true;
-      settings = {
-        Autologin = {
-          Session = "RetroArch.desktop";
-          User = "nixuser";
+      program = getExe (pkgs.retroarch-bare.wrapper {
+        cores = with pkgs.libretro; [
+          bsnes
+          mgba
+        ];
+        settings = {
+          menu_driver = "rgui";
+          rgui_menu_color_theme = "6";
+          rgui_particle_effect = "5";
+          rgui_browser_directory = "/media";
         };
-      };
+      });
+      user = "nixuser";
     };
-
-    services.xserver.desktopManager.retroarch.enable = true;
   };
 }

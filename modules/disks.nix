@@ -7,6 +7,9 @@ in {
       mountOnMedia = true;
     };
 
+    services.devmon.enable = true;
+    boot.supportedFilesystems = ["ntfs" "exfat" "vfat" "ext4" "btrfs"];
+
     fileSystems = {
       "/" = {
         fsType = "tmpfs";

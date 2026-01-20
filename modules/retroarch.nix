@@ -24,19 +24,30 @@ in {
 
     services.cage = {
       enable = true;
-      program = getExe (pkgs.retroarch-bare.wrapper {
-        cores = with pkgs.libretro; [
-          bsnes
-          mgba
-        ];
-        settings = {
-          menu_driver = "rgui";
-          rgui_menu_color_theme = "6";
-          rgui_particle_effect = "5";
-          rgui_browser_directory = "/media";
-          cache_directory = "~/.cache/retroarch";
-        };
-      });
+
+      program = pkgs.writeShellScript "retroarch-runner" (let
+        retroarch = getExe (pkgs.retroarch-bare.wrapper {
+          cores = with pkgs.libretro; [
+            bsnes
+            mgba
+          ];
+          settings = {
+            menu_driver = "rgui";
+            rgui_menu_color_theme = "6";
+            rgui_particle_effect = "5";
+            rgui_browser_directory = "/media";
+            cache_directory = "~/.cache/retroarch";
+          };
+        });
+      in ''
+        while ! ${retroarch}; do
+          echo "Retroarch failed with $?, restarting"
+          sleep 1
+        done
+
+        poweroff
+      '');
+
       user = "nixuser";
     };
   };

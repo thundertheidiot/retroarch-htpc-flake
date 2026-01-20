@@ -4,7 +4,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) getExe attrValues;
+  inherit (lib) getExe attrValues filter;
+  inherit (lib.meta) availableOn;
 in {
   config = {
     my.impermanence.directories = [
@@ -27,10 +28,7 @@ in {
 
       program = pkgs.writeShellScript "retroarch-runner" (let
         retroarch = getExe (pkgs.retroarch-bare.wrapper {
-          cores = with pkgs.libretro; [
-            bsnes
-            mgba
-          ];
+          cores = filter (c: (c ? libretroCore) && (availableOn pkgs.stdenv.hostPlatform c)) (attrValues pkgs.libretro);
           settings = {
             menu_driver = "rgui";
             rgui_menu_color_theme = "6";

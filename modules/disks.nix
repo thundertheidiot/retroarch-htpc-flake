@@ -40,6 +40,11 @@ in {
         fsType = "btrfs";
         options = ["subvol=@var_tmp"];
       };
+      "/media/hdd" = {
+        label = mkDefault "htpc-main";
+        fsType = "btrfs";
+        options = ["subvol=@storage"];
+      };
     };
   };
 }
